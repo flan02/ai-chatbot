@@ -2,8 +2,8 @@ import { Button } from "@/components/ui/button"
 
 export default function Home() {
   return (
-    <div>
+    <main className="">
       <Button>Click me</Button>
-    </div>
+    </main>
   )
 }
