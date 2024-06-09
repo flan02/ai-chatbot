@@ -1,35 +1,11 @@
-import { Button } from '@/components/ui/button'
-import {
-  ClerkProvider,
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton
-} from '@clerk/nextjs'
+import NavBar from "./NavBar";
 
-export default function NotesPageLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <ClerkProvider>
-      <main>
-
-        <nav>
-          <SignedOut>
-            <SignInButton>
-              <Button>Sign in</Button>
-            </SignInButton>
-          </SignedOut>
-          <SignedIn>
-            <UserButton />
-            {children}
-          </SignedIn>
-
-        </nav>
-
-      </main>
-    </ClerkProvider>
-  )
+    <>
+      <NavBar />
+      <main className="m-auto max-w-7xl p-4">{children}</main>
+    </>
+  );
 }

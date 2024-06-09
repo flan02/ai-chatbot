@@ -1,4 +1,9 @@
+import { Metadata } from "next"
 
+export const metadata: Metadata = {
+  title: 'Chatbox - Notes',
+  description: 'Notes page powered by AI',
+}
 
 type Props = {}
 
