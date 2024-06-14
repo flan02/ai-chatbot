@@ -24,7 +24,7 @@ export default function NavBar() {
         <div className="m-auto flex max-w-7xl flex-wrap items-center justify-between gap-3">
           <Link href="/notes" className="flex items-center gap-1">
             {/*<Image src={logo} alt="MM logo" width={40} height={40} />*/}
-            <span className="font-bold">M&M MasterMind</span>
+            <span className="font-bold text-amber-300 text-xs md:text-lg">M&M MasterMind</span>
           </Link>
           <div className="flex items-center gap-2">
             <UserButton
@@ -34,12 +34,12 @@ export default function NavBar() {
                 elements: { avatarBox: { width: "2.5rem", height: "2.5rem" } },
               }}
             />
-            <ThemeToggleButton />
             <Button onClick={() => setShowAddEditNoteDialog(true)}>
               <Plus size={20} className="mr-2" />
               Add Note
             </Button>
             <AIChatButton />
+            <ThemeToggleButton />
           </div>
         </div>
       </div>

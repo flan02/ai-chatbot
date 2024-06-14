@@ -21,10 +21,10 @@ export default function Home() {
   return (
     <>
       <NavBar />
-      <main className="flex  h-screen flex-col items-center justify-center gap-4">
-        <Image src={logo} alt="FlowBrain logo" width={800} height={800} className="m-0 p-0" />
+      <main className="flex flex-col items-center justify-center gap-4 mt-24">
+        <Image src={logo} alt="FlowBrain logo" width={800} height={800} className="m-0 p-0 " />
         <div className="flex items-center -mt-12 md:-mt-24">
-          <span className="text-5xl font-extrabold tracking-tight lg:text-6xl text-amber-100">
+          <span className="text-5xl font-extrabold tracking-tight lg:text-6xl text-amber-300">
             M&M MasterMind
           </span>
         </div>
