@@ -1,3 +1,5 @@
+import prisma from "@/lib/db/prisma";
+import { auth } from "@clerk/nextjs/server";
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -7,12 +9,18 @@ export const metadata: Metadata = {
 
 type Props = {}
 
-const NotesPage = (props: Props) => {
+export default async function NotesPage() {
+  const { userId } = auth();
+  if (!userId) throw Error('userId undefined')
+  const allNotes = await prisma.note.findMany({
+    where: {
+      userId
+    }
+  })
+
   return (
-    <article>
-      <h1>NotesPage</h1>
-    </article>
+    <div>
+      {JSON.stringify(allNotes)}
+    </div>
   )
 }
-
-export default NotesPage
