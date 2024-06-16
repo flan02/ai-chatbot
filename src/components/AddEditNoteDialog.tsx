@@ -135,7 +135,7 @@ export default function AddEditNoteDialog({
                   loading={deleteInProgress}
                   disabled={form.formState.isSubmitting}
                   onClick={deleteNote}
-                  type="button"
+                  type="button" /* Prevent form submission */
                 >
                   Delete note
                 </LoadingButton>

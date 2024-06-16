@@ -11,8 +11,8 @@ export default function SignInPage() {
   return (
     <>
       <NavBar />
-      <div className="flex flex-col min-h-screen items-center justify-center">
-        <h1 className="text-4xl">Welcome Guest!</h1>
+      <div className="flex flex-col h-auto space-y-5 items-center justify-center">
+        <h1 className="text-4xl mt-12 text-amber-300 font-bold">Welcome Guest!</h1>
         <br />
         <SignIn appearance={{ variables: { colorPrimary: "#0F172A", colorBackground: "#ffde00" } }} />
       </div>
