@@ -1,4 +1,6 @@
+import { notesIndex } from "@/lib/db/pinecone";
 import prisma from "@/lib/db/prisma";
+import { getEmbedding } from "@/lib/openai";
 import { createNoteSchema, deleteNoteSchema, updateNoteSchema } from "@/lib/validation/note";
 import { auth } from "@clerk/nextjs/server";
 
@@ -15,15 +17,33 @@ export async function POST(req: Request) {
     if (!userId) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
-    // Save note to database
-    const newNote = await prisma.note.create({
-      data: {
-        title,
-        content,
-        userId
-      }
-    });
-    return Response.json({ newNote }, { status: 201 });
+
+    // Generate embedding for note before saving in ddbb.
+    const embedding = await getEmbeddingForNote(title, content);
+
+    // Store embedding in pinecode ddbb so we can later search for it.
+    // * Always first executing mongodb operation, then execute pinecone operation.
+    const note = await prisma.$transaction(async (tx) => {
+      const note = await tx.note.create({
+        data: {
+          title,
+          content,
+          userId,
+        }
+      });
+
+      await notesIndex.upsert([
+        { // insert entry in pinecone ddbb
+          id: note.id,
+          values: embedding,
+          metadata: { userId }
+        }
+      ])
+
+      return note
+    })
+
+    return Response.json({ note }, { status: 201 });
   } catch (error) {
     console.error(error);
     return Response.json({ error: 'Internal server error' }, { status: 500 })
@@ -89,3 +109,22 @@ export async function DELETE(req: Request) {
     return Response.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
+
+
+async function getEmbeddingForNote(title: string, content: string | undefined) {
+  return getEmbedding(title + "\n\n" + content ?? "")
+}
+
+
+/*
+? Prisma way -> Save note to database (POST)
+const newNote = await prisma.note.create({
+  data: {
+    title,
+    content,
+    userId
+  }
+});
+
+return Response.json({ newNote }, { status: 201 });
+*/
