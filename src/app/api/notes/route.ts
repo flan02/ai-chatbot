@@ -67,16 +67,29 @@ export async function PUT(req: Request) {
     if (!userId || userId !== noteFound.userId) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
-    // Save note to database
-    const updatedNote = await prisma.note.update({
-      where: {
-        id
-      },
-      data: {
-        title,
-        content
-      }
-    });
+
+    const embedding = await getEmbeddingForNote(title, content);
+    // This is necessary because if we change the content of the note, we also might change its meaning. So we have to create a new vector embedding
+    const updatedNote = await prisma.$transaction(async (tx) => {
+      const updatedNote = await tx.note.update({
+        where: { id },
+        data: {
+          title,
+          content
+        }
+      });
+
+      await notesIndex.upsert([
+        {
+          id,
+          values: embedding,
+          metadata: { userId }
+        }
+      ])
+
+      return updatedNote;
+    })
+
     return Response.json({ updatedNote }, { status: 200 });
   } catch (error) {
     console.error(error);
@@ -101,8 +114,13 @@ export async function DELETE(req: Request) {
     if (!userId || userId !== noteFound.userId) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
-    // Save note to database
-    const deletedNote = await prisma.note.delete({ where: { id: note.id } });
+
+    await prisma.$transaction(async (tx) => {
+      // We need to delete the note from pinecone ddbb first, then delete the note from prisma ddbb.
+      await tx.note.delete({ where: { id: note.id } });
+      await notesIndex.deleteOne(note.id);
+    })
+
     return Response.json({ message: "Noted deleted" }, { status: 200 });
   } catch (error) {
     console.error(error);
