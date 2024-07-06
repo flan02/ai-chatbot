@@ -11,3 +11,6 @@ These days, the “text-embedding-ada-002” model is mainly used. This model ca
 ### List of embedding models
 
 [openai embedding](https://platform.openai.com/docs/api-reference/models/list)
+
+### LangChain
+[documentation](https://js.langchain.com/v0.2/docs/introduction/)

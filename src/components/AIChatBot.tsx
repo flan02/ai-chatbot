@@ -22,7 +22,7 @@ export default function AIChatBox({ open, onClose }: AIChatBoxProps) {
     setMessages,
     isLoading,
     error,
-  } = useChat();
+  } = useChat(); // ? /api/chat
 
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
