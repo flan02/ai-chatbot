@@ -1,6 +1,11 @@
 import { notesIndex } from "@/lib/db/pinecone"
 import prisma from "@/lib/db/prisma"
-import { getEmbedding } from "@/lib/openai"
+
+// * https://sdk.vercel.ai/providers/ai-sdk-providers/openai
+//import { createOpenAI, openai } from '@ai-sdk/openai';
+import openai, { getEmbedding } from "@/lib/openai"
+import { OpenAIStream, StreamingTextResponse } from "ai"
+
 import { auth } from "@clerk/nextjs/server"
 import { ChatCompletionMessage } from "openai/resources/index.mjs"
 
@@ -34,16 +39,24 @@ export async function POST(req: Request) {
 
     console.log("Relevant notes found: ", relevantNotes)
 
-    const systemMessages = relevantNotes.map((note) => ({
-      role: "system", // * assistant, function, system, user (different roles for the chatbot)
+    const systemMessage: ChatCompletionMessage = {
+      role: "assistant", // * assistant, function, system, user (different roles for the chatbot) 
       content: "You are an intelligent note-taking app. You answer the user's based pm tjeor existint notes. " +
         "The relevant notes for this query are: \n " +
         relevantNotes
-          .map((note) => `Title: ${note.title}`)
-          .join(`\n\nContent:\n${note.content}\n\n`)
-    }))
+          .map((note) => `Title: ${note.title}\n\nContent:\n${note.content}`)
+          .join(`\n\n`)
+    }
 
-    return Response.json({ notes: vectorQueryResponse.matches }, { status: 200 })
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      stream: true,
+      messages: [systemMessage, ...messagesTruncated],
+    });
+
+    const stream = OpenAIStream(response);
+    return new StreamingTextResponse(stream);
+
   } catch (error) {
     console.error(error)
     return Response.json({ error: 'Internal server error' }, { status: 500 })

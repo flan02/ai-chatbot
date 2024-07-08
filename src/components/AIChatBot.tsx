@@ -13,7 +13,7 @@ interface AIChatBoxProps {
   onClose: () => void;
 }
 
-export default function AIChatBox({ open, onClose }: AIChatBoxProps) {
+export default function AIChatBot({ open, onClose }: AIChatBoxProps) {
   const {
     messages,
     input,
@@ -103,11 +103,9 @@ export default function AIChatBox({ open, onClose }: AIChatBoxProps) {
   );
 }
 
-function ChatMessage({
-  message: { role, content },
-}: {
-  message: Pick<Message, "role" | "content">;
-}) {
+
+// ? This component renders a chat message. It is used in the AIChatBox component.
+function ChatMessage({ message: { role, content } }: { message: Pick<Message, "role" | "content"> }) {
   const { user } = useUser();
 
   const isAiMessage = role === "assistant";
