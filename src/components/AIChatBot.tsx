@@ -31,13 +31,13 @@ export default function AIChatBot({ open, onClose }: AIChatBoxProps) {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [messages]);
+  }, [messages]); // ? This effect scrolls the chat to the bottom when a new message is added.
 
   useEffect(() => {
     if (open) {
       inputRef.current?.focus();
     }
-  }, [open]);
+  }, [open]); // ? This effect focuses the input when the chat is opened.
 
   const lastMessageIsUser = messages[messages.length - 1]?.role === "user";
 
@@ -108,7 +108,7 @@ export default function AIChatBot({ open, onClose }: AIChatBoxProps) {
 function ChatMessage({ message: { role, content } }: { message: Pick<Message, "role" | "content"> }) {
   const { user } = useUser();
 
-  const isAiMessage = role === "assistant";
+  const isAiMessage = role === "assistant"; // ? true if the message is from the AI. False if it is from the user.
 
   return (
     <div

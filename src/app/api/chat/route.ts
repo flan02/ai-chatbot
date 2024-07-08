@@ -11,6 +11,7 @@ import { ChatCompletionMessage } from "openai/resources/index.mjs"
 
 export async function POST(req: Request) {
   try {
+    // throw new Error("Artificial error for testing purposes")
     const body = await req.json()
     const messages: ChatCompletionMessage[] = body.messages
     // Only retrieve the last 6 messages to avoid sending too much data and save my tokens usage in OpenAI API
@@ -25,7 +26,7 @@ export async function POST(req: Request) {
     // Store embedding in pinecode ddbb so we can later search for it.
     const vectorQueryResponse = await notesIndex.query({
       vector: embedding,
-      topK: 1,
+      topK: 6, // ? How many notes the AI will be capable to read
       filter: { userId }
     })
 
@@ -59,6 +60,6 @@ export async function POST(req: Request) {
 
   } catch (error) {
     console.error(error)
-    return Response.json({ error: 'Internal server error' }, { status: 500 })
+    return Response.json({ error: 'Internal server error' }, { status: 500 }) // ?  Vercel AI SDK manage 500 responses as a error
   }
 }
