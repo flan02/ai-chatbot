@@ -73,9 +73,13 @@ export default function AIChatBot({ open, onClose }: AIChatBoxProps) {
             />
           )}
           {!error && messages.length === 0 && (
-            <div className="flex h-full items-center justify-center gap-3">
+            <div className="flex h-full items-center justify-center gap-3 text-slate-400 dark:text-red-100">
               <Bot />
-              Ask the AI a question about your notes
+              I am EIAI trained as an assistant.
+              <br />
+              I can give you a lot of info about Dan background.
+              <br />
+              What would you like to know?
             </div>
           )}
         </div>

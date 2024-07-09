@@ -42,7 +42,7 @@ export async function POST(req: Request) {
 
     const systemMessage: ChatCompletionMessage = {
       role: "assistant", // * assistant, function, system, user (different roles for the chatbot) 
-      content: "You are an intelligent note-taking app. You answer the user's based pm tjeor existint notes. " +
+      content: "You are an intelligent assistant that contain info about Dan Chanivet life, he is your master and he nicknamed you as EIAI. You answer the user's based on their existing notes and each answer can't have more than 30 words. " +
         "The relevant notes for this query are: \n " +
         relevantNotes
           .map((note) => `Title: ${note.title}\n\nContent:\n${note.content}`)
