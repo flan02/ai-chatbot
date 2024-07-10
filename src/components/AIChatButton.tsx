@@ -11,7 +11,7 @@ export default function AIChatButton() {
     <>
       <Button onClick={() => setChatBoxOpen(true)}>
         <Bot size={20} className="mr-2" />
-        Robotin AI
+        EIAI
       </Button>
       <AIChatBox open={chatBoxOpen} onClose={() => setChatBoxOpen(false)} />
     </>

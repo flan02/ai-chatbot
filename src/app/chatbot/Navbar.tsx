@@ -34,13 +34,16 @@ export default function NavBar() {
                 elements: { avatarBox: { width: "2.5rem", height: "2.5rem" } },
               }}
             />
-
-            <Button onClick={() => setShowAddEditNoteDialog(true)}>
+            {
+            /*
+             <Button onClick={() => setShowAddEditNoteDialog(true)}>
               <Plus size={20} className="mr-2" />
               Add Note
             </Button>
-
-            {/* <AIChatButton />*/}
+            */}
+            {/*
+           <AIChatButton />
+           */}
             <ThemeToggleButton />
           </div>
         </div>

@@ -32,7 +32,7 @@ export default async function NotesPage() {
         allNotes.length === 0 && (
 
           <div className="col-span-full text-center text-2xl font-bold ">
-            <p className="">No notes found</p>
+            <p className="text-slate-400">No notes found</p>
           </div>
 
         )

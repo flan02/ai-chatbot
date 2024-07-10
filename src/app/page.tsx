@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 export default function Home() {
   const userId = auth().userId;
   console.log(userId);
-  if (userId) redirect("/notes");
+  if (userId) redirect("/chatbot");
 
   return (
     <>
@@ -28,13 +28,15 @@ export default function Home() {
             M&M MasterMind
           </span>
         </div>
-        <p className="max-w-prose text-center text-amber-50">
-          A clever note-taking app empowered by AI integration. Built with OpenAI,
-          Pinecone, Vercel AI SDK, MongoDB, Prisma, Next.js, Shadcn UI, Clerk, Tailwindcss.
+        <p className="max-w-prose text-left text-slate-600 px-4">
+          This project allows users to create their own chatbot trained as an assistant with OpenAI GPT-4 models.
         </p>
+        <br />
         <Button size="lg" asChild>
-          <Link href="/notes">Open</Link>
+          <Link href="/chatbot">Open</Link>
         </Button>
+        <br />
+        <h6 className="text-sm text-slate-400 text-muted-foreground px-4">Built with OpenAI, Langchain, Langsmith, Pinecone, Vercel AI SDK, MongoDB, Prisma, Next.js, Shadcn UI, Clerk, Tailwindcss.</h6>
         <h6 className="text-xs text-muted-foreground">created by Dan Chanivet</h6>
 
       </main>

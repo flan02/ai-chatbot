@@ -75,9 +75,9 @@ export default function AIChatBot({ open, onClose }: AIChatBoxProps) {
           {!error && messages.length === 0 && (
             <div className="flex h-full items-center justify-center gap-3 text-slate-400 dark:text-red-100">
               <Bot />
-              I am EIAI trained as an assistant.
+              Hi, I am EIAI trained as an assistant.
               <br />
-              I can give you a lot of info about Dan background.
+              I can give you a lot of info about Dan&apos;s background.
               <br />
               What would you like to know?
             </div>
